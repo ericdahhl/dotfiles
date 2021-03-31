@@ -90,7 +90,7 @@ autocmd FileType python nnoremap  <leader>rt :!for f in %:r.*.test; do echo "TES
 autocmd FileType cpp nnoremap     <leader>rb    :!g++ -g --std=c++17 % -o %:r<CR>
 autocmd FileType cpp nnoremap     <leader>rr    :!./%:r<CR>
 autocmd FileType cpp nnoremap     <leader>rt    :!for f in %:r.*.test; do echo "TEST: $f"; ./%:r < $f; done<CR>
-" WSL specific
+" WSL specific for piping a whole file to clipboard (used to submit code)
 nnoremap <leader>cp :!cat % <bar> clip.exe<CR>
 
 
@@ -116,8 +116,10 @@ call plug#end()
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  ignore_install = { "erlang", "nix", "devicetree", "ocamllex", "supercollider", "gdscript", "ledger" },
   highlight = {
     enable = true,              -- false will disable the whole extension
+    disable = { "erlang", "nix", "devicetree", "ocamllex", "supercollider", "gdscript", "ledger" }
   },
 }
 EOF
