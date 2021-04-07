@@ -15,6 +15,7 @@ set scrolloff=8
 set noshowmode
 set colorcolumn=80
 set updatetime=50
+set mouse=a
 
 set tabstop=4
 set softtabstop=4
