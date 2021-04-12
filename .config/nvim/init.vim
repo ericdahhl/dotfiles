@@ -16,13 +16,16 @@ set noshowmode
 set colorcolumn=80
 set updatetime=50
 set mouse=a
+set visualbell
+set updatetime=300
 
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
-set visualbell
-set updatetime=300
+
+autocmd FileType html setlocal ts=2 sts=2 sw=2
+autocmd FileType javascript setlocal ts=2 sts=2 sw=2
 
 " Tab complete
 set wildmode=longest,list,full
@@ -78,6 +81,8 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
+" Tree stuff
+nnoremap <C-n> :NvimTreeToggle<CR>
 " Fzf stuff
 nnoremap <leader>fi :Files<CR>
 nnoremap <leader>fb :Buffers<CR>
@@ -111,6 +116,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'honza/vim-snippets'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 
 call plug#end()
 

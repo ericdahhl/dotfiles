@@ -18,3 +18,5 @@ while [ "$#" -gt 0 ]; do
         *) echo "Unavailable command... $curr"
     esac
 done
+
+tmux a -t annot8r
