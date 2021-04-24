@@ -19,4 +19,4 @@ while [ "$#" -gt 0 ]; do
     esac
 done
 
-tmux a -t annot8r
+tmux a -t annot8r -d 'cd ~code/proje/tddd27-2021-annot8r/resonant'
