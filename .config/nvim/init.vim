@@ -46,43 +46,6 @@ augroup WrapLineForSpecificFiles
     autocmd FileType markdown setlocal wrap
 augroup END
 
-" Coc stuff
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-" 
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-" 
-" " Use tab for trigger completion with characters ahead and navigate.
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-" 
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-" 
-" " Use <c-space> to trigger completion.
-" if has('nvim')
-"   inoremap <silent><expr> <c-space> coc#refresh()
-" else
-"   inoremap <silent><expr> <c-@> coc#refresh()
-" endif
-" 
-" " Make <CR> auto-select the first completion item and notify coc.nvim to
-" " format on enter, <cr> could be remapped by other vim plugin
-" inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-"                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-" 
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-" nmap <leader>rn <Plug>(coc-rename)
-
-
 " Tree stuff
 nnoremap <C-n> :NvimTreeToggle<CR>
 " Fzf stuff
@@ -109,24 +72,21 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sainnhe/gruvbox-material'
-" Plug 'folke/lsp-colors.nvim'
-" Plug 'morhetz/gruvbox'
+Plug 'morhetz/gruvbox'
 
 " Extend editor functionality
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-compe'
 Plug 'glepnir/lspsaga.nvim'
 
+Plug 'b3nj5m1n/kommentary'
 Plug 'honza/vim-snippets'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
-
 call plug#end()
-
 
 set termguicolors
 colorscheme gruvbox-material
@@ -192,7 +152,7 @@ end
 
 -- Use a loop to conveniently both setup defined servers 
 -- and map buffer local keybindings when the language server attaches
-local servers = { "pyright", "tsserver" }
+local servers = { "pyright", "tsserver", "clangd" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup { on_attach = on_attach }
 end
@@ -223,12 +183,15 @@ require'compe'.setup {
 
 require'lspsaga'.init_lsp_saga()
 
+vim.api.nvim_set_keymap("n", "<C-G>", "<Plug>kommentary_line_default", {})
+vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_motion_default", {})
+vim.api.nvim_set_keymap("v", "<C-G>", "<Plug>kommentary_visual_default", {})
 EOF
 
 " nvim-compe mappings
-inoremap <silent><expr> <C-Space> compe#complete()
-inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+inoremap <silent><expr> <c-space> compe#complete()
+inoremap <silent><expr> <cr>      compe#confirm('<cr>')
+inoremap <silent><expr> <c-e>     compe#close('<c-e>')
 inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
 inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
 
