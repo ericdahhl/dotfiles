@@ -72,6 +72,7 @@ Plug 'tomasiser/vim-code-dark'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/edge'
 Plug 'morhetz/gruvbox'
 
 " Extend editor functionality
@@ -89,7 +90,8 @@ Plug 'kyazdani42/nvim-tree.lua'
 call plug#end()
 
 set termguicolors
-colorscheme gruvbox-material
+lef g:edge_style = 'aura'
+colorscheme edge
 
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -114,7 +116,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
@@ -183,9 +185,9 @@ require'compe'.setup {
 
 require'lspsaga'.init_lsp_saga()
 
-vim.api.nvim_set_keymap("n", "<C-G>", "<Plug>kommentary_line_default", {})
+vim.api.nvim_set_keymap("n", "<C-_>", "<Plug>kommentary_line_default", {})
 vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_motion_default", {})
-vim.api.nvim_set_keymap("v", "<C-G>", "<Plug>kommentary_visual_default", {})
+vim.api.nvim_set_keymap("v", "<C-_>", "<Plug>kommentary_visual_default", {})
 EOF
 
 " nvim-compe mappings
