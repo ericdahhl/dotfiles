@@ -13,7 +13,6 @@ set nobackup
 set incsearch
 set scrolloff=8
 set noshowmode
-set colorcolumn=80
 set updatetime=50
 set mouse=a
 set visualbell
@@ -46,13 +45,6 @@ augroup WrapLineForSpecificFiles
     autocmd FileType markdown setlocal wrap
 augroup END
 
-" Tree stuff
-nnoremap <C-n> :NvimTreeToggle<CR>
-" Fzf stuff
-nnoremap <C-p> :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>rg :Rg<CR>
-nnoremap <leader>fl :Lines<CR>
 
 autocmd FileType python nnoremap <leader>rp :!python3 %:r.py<CR>
 
@@ -65,41 +57,25 @@ autocmd FileType cpp nnoremap     <leader>rt    :!for f in %:r.*.test; do echo "
 nnoremap <leader>cp :!cat % <bar> clip.exe<CR>
 
 
-call plug#begin('~/.vim/plugged') 
-
-" Visual stuff
-Plug 'tomasiser/vim-code-dark'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'sainnhe/gruvbox-material'
-Plug 'sainnhe/edge'
-Plug 'morhetz/gruvbox'
-
-" Extend editor functionality
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
-Plug 'glepnir/lspsaga.nvim'
-
-Plug 'b3nj5m1n/kommentary'
-Plug 'honza/vim-snippets'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'kyazdani42/nvim-tree.lua'
-call plug#end()
-
-set termguicolors
-lef g:edge_style = 'aura'
-colorscheme edge
-
 lua <<EOF
+-- Ensure packer.nvim is installed
+local execute = vim.api.nvim_command
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+
+if fn.empty(fn.glob(install_path)) > 0 then
+  fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+  execute 'packadd packer.nvim'
+end
+
+require('plugins')
+
 require'nvim-treesitter.configs'.setup {
   ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
   ignore_install = { "erlang", "nix", "devicetree", "ocamllex", "supercollider", "gdscript", "ledger" },
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = { "erlang", "nix", "devicetree", "ocamllex", "supercollider", "gdscript", "ledger" }
+  disable = { "erlang", "nix", "devicetree", "ocamllex", "supercollider", "gdscript", "ledger" }
   },
 }
 
@@ -140,9 +116,9 @@ local on_attach = function(client, bufnr)
   -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
-      hi LspReferenceRead cterm=bold ctermbg=red guibg='#3c3836'
-      hi LspReferenceText cterm=bold ctermbg=red guibg='#3c3836'
-      hi LspReferenceWrite cterm=bold ctermbg=red guibg='#3c3836'
+hi LspReferenceRead cterm=bold ctermbg=red guibg='#292e42'
+      hi LspReferenceText cterm=bold ctermbg=red guibg='#292e42'
+      hi LspReferenceWrite cterm=bold ctermbg=red guibg='#292e42'
       augroup lsp_document_highlight
         autocmd! * <buffer>
         autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
@@ -188,7 +164,41 @@ require'lspsaga'.init_lsp_saga()
 vim.api.nvim_set_keymap("n", "<C-_>", "<Plug>kommentary_line_default", {})
 vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_motion_default", {})
 vim.api.nvim_set_keymap("v", "<C-_>", "<Plug>kommentary_visual_default", {})
+
+
+require('lualine').setup{
+options = {theme = 'onedark'},
+    sections = {
+      lualine_a = {'mode'},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'encoding', 'fileformat', 'filetype'},
+      lualine_y = {'progress'},
+      lualine_z = {'location'}
+    },
+    inactive_sections = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {'filename'},
+      lualine_x = {'location'},
+      lualine_y = {},
+      lualine_z = {}
+    }
+}
 EOF
+
+set termguicolors
+lef g:edge_style = 'neon'
+colorscheme edge
+
+" Tree stuff
+nnoremap <C-n> :NvimTreeToggle<CR>
+
+" Telescope
+nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>rg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
+
 
 " nvim-compe mappings
 inoremap <silent><expr> <c-space> compe#complete()
