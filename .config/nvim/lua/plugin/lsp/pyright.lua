@@ -1,4 +1,4 @@
-require('lspconfig').tsserver.setup{
+require('lspconfig').pyright.setup{
   on_attach = function(client, bufnr)
     require('plugin.lsp').on_attach(client, bufnr)
   end,

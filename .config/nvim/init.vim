@@ -68,7 +68,7 @@ EOF
 
 set termguicolors
 let g:edge_style = 'neon'
-colorscheme edge
+colorscheme material
 
 " Tree stuff
 nnoremap <C-n> :NvimTreeToggle<CR>

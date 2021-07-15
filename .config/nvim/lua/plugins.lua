@@ -27,6 +27,7 @@ return require('packer').startup(function()
     use 'sainnhe/edge'
     use 'morhetz/gruvbox'
     use 'folke/tokyonight.nvim'
+    use 'marko-cerovac/material.nvim'
     use 'kyazdani42/nvim-web-devicons'
 
     -- extend editor functionality
@@ -50,6 +51,7 @@ return require('packer').startup(function()
       config = function()
         require('plugin.lsp')
         require('plugin.lsp.clangd')
+        require('plugin.lsp.rustanalyzer')
         require('plugin.lsp.pyright')
         require('plugin.lsp.tsserver')
         require('plugin.lsp.vuels')
