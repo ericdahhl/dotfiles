@@ -56,6 +56,7 @@ return require('packer').startup(function()
         require('plugin.lsp.tsserver')
         require('plugin.lsp.vuels')
         require('plugin.lsp.efm')
+        require('plugin.lsp.tailwindcss')
       end,
       requires = {
         {
