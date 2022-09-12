@@ -33,7 +33,12 @@ return require('packer').startup(function()
     -- extend editor functionality
     use {
       'nvim-telescope/telescope.nvim',
-      requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+      requires = {
+        {'nvim-lua/popup.nvim'},
+        {'nvim-lua/plenary.nvim'},
+        {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+      },
+      config = function() require('telescope').load_extension('fzf') end,
     }
 
     use { 
@@ -50,28 +55,28 @@ return require('packer').startup(function()
       'neovim/nvim-lspconfig',
       config = function()
         require('plugin.lsp')
+        require('plugin.lsp.tailwindcss')
         require('plugin.lsp.clangd')
         require('plugin.lsp.rustanalyzer')
         require('plugin.lsp.pyright')
         require('plugin.lsp.tsserver')
         require('plugin.lsp.vuels')
         require('plugin.lsp.efm')
-        require('plugin.lsp.tailwindcss')
+        require('plugin.lsp.texlab')
       end,
       requires = {
         {
-          'hrsh7th/nvim-compe',
-          config = function() require('plugin.compe') end,
+          'hrsh7th/nvim-cmp',
+          config = function() require('plugin.cmp') end,
         },
-        {
-          'hrsh7th/vim-vsnip',
-        }
+        {'hrsh7th/vim-vsnip'}, {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-path'},
+        {'hrsh7th/cmp-buffer'}, {'hrsh7th/cmp-cmdline'} 
       }
     }
 
     use 'lewis6991/gitsigns.nvim'
     use 'sindrets/diffview.nvim'
     use 'b3nj5m1n/kommentary'
-    use 'kyazdani42/nvim-tree.lua'
+    use { 'kyazdani42/nvim-tree.lua', config = function() require'nvim-tree'.setup {} end }
 
 end)

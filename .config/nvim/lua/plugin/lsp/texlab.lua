@@ -1,4 +1,4 @@
-require('lspconfig').clangd.setup{
+require('lspconfig').texlab.setup{
   on_attach = function(client, bufnr)
     require('plugin.lsp').on_attach(client, bufnr)
   end,

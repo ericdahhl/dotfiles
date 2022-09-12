@@ -14,9 +14,9 @@ require('lspconfig').rust_analyzer.setup({
       cargo = {
         loadOutDirsFromCheck = true
       },
-      procMacro = {
+      --[[ procMacro = {
         enable = true
-      },
+      }, ]]
     }
   }
 })

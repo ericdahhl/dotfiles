@@ -43,8 +43,14 @@ nnoremap <C-l> <C-w>l
 
 augroup WrapLineForSpecificFiles
     autocmd!
-    au BufRead,BufNewFile *.md setlocal textwidth=80
-    autocmd FileType markdown setlocal wrap
+    au BufRead,BufNewFile *.md,*.tex setlocal textwidth=80
+    autocmd FileType markdown,tex setlocal wrap
+augroup END
+
+augroup MarkdownSpell
+    autocmd!
+    autocmd FileType markdown,tex setlocal spell
+    autocmd BufRead,BufNewFile *.md,*.tex setlocal spell
 augroup END
 
 autocmd FileType python nnoremap <leader>rp :!python3 %:r.py<CR>
@@ -56,11 +62,15 @@ autocmd FileType cpp nnoremap     <leader>rr    :!./%:r<CR>
 autocmd FileType cpp nnoremap     <leader>rt    :!for f in %:r.*.test; do echo "TEST: $f"; ./%:r < $f; done<CR>
 " WSL specific for piping a whole file to clipboard (used to submit code)
 nnoremap <leader>cp :!cat % <bar> clip.exe<CR>
+vnoremap <leader>cp :'<,'>:w !clip.exe<CR>
 
 lua <<EOF
 require('plugins')
 
 require('gitsigns').setup()
+require('material').setup({
+    text_contrast = { lighter = true, darker = false }
+})
 
 vim.api.nvim_set_keymap("n", "<C-_>", "<Plug>kommentary_line_default", {})
 vim.api.nvim_set_keymap("n", "<leader>c", "<Plug>kommentary_motion_default", {})
@@ -78,12 +88,5 @@ nnoremap <C-n> :NvimTreeToggle<CR>
 nnoremap <C-p> <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>rg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>b <cmd>lua require('telescope.builtin').buffers()<cr>
-
-
-" nvim-compe mappings
-inoremap <silent><expr> <c-space> compe#complete()
-inoremap <silent><expr> <cr>      compe#confirm('<cr>')
-inoremap <silent><expr> <c-e>     compe#close('<c-e>')
-inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+nnoremap <leader>s <cmd>lua require('telescope.builtin').spell_suggest()<cr>
 
